@@ -33,8 +33,10 @@ jobs:
           retention-days: 30
           
       - name: Deploy to production (render)
-        uses: JorgeLNJunior/render-deploy@v1.4.4
+        uses: bounceapp/render-action@0.6.0
         with: 
-          service_id: ${{ secrets.MY_RENDER_SERVICE_ID }}
-          api_key: ${{ secrets.MY_RENDER_API_KEY }}
-          wait_deploy: true
+          service-id: ${{ secrets.MY_RENDER_SERVICE_ID }}
+          render-token: ${{ secrets.MY_RENDER_API_KEY }}
+          retries: 20
+          wait: 16000
+          sleep: 30000
