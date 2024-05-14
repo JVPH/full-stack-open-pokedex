@@ -31,12 +31,7 @@ jobs:
           name: playwright-report
           path: playwright-report/
           retention-days: 30
-          
       - name: Deploy to production (render)
         uses: bounceapp/render-action@0.6.0
         with: 
           service-id: ${{ secrets.MY_RENDER_SERVICE_ID }}
-          render-token: ${{ secrets.MY_RENDER_API_KEY }}
-          retries: 20
-          wait: 16000
-          sleep: 30000
