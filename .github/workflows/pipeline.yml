@@ -40,6 +40,24 @@ jobs:
       - name: Trigger deployment
         if: ${{ github.event_name == 'push' }}
         run: curl https://api.render.com/deploy/srv-${{ secrets.RENDER_SERVICE_ID }}?key=${{ secrets.RENDER_API_KEY }}
+      - name: Discord Webhook Notify
+        uses: rjstone/discord-webhook-notify@v1.0.4
+        if: ${{ success() }}
+        with:
+            severity: info
+            details: Test Succeeded!
+            webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+        if: ${{ failure() }}
+        with:
+            severity: error
+            details: Build failed
+            webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+            description: This is a custom description.
+            details: 'Commit ${{ github.event.head_commit.url }} by ${{ github.event.head_commit.author }} broke the build :('
+            footer: 'Severity: Error' 
+            text: Build failed
+            webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+    
   tag_release:
     needs: [simple_deployment_pipeline]
     runs-on: ubuntu-20.04
